@@ -4,6 +4,10 @@ import VoiceRSS from "./voiserss_sdk.js";
 const button = document.getElementById('button');
 const audioElement = document.getElementById('audio');
 
+function toggleButton() {
+  button.disabled = !button.disabled;
+}
+
 function playJoke(joke) {
   VoiceRSS.speech({
     key: apiKey.TTSAPIKEY,
@@ -32,9 +36,11 @@ async function getJokes() {
     }
 
     playJoke(joke);
+    toggleButton();
   } catch (error) {
     console.log('Something went wrong.', error);
   }
 }
 
-getJokes();
+button.addEventListener('click', getJokes);
+audioElement.addEventListener('ended', toggleButton);
